@@ -1,6 +1,8 @@
 import { CollectorConfig, SourceType, ExtractorType, PostProcessorCommandType } from 'src/shared/collector-config/type';
 
 export const TESLA_STOCKS_CONFIG: CollectorConfig = {
+  id: 'zacks',
+  schedule: { hour: 23, minute: 30 },
   source: {
     type: SourceType.url,
     uri: 'https://www.zacks.com/stock/quote/tsla',
