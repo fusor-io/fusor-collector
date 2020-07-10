@@ -4,14 +4,15 @@ export enum PostProcessorCommandType {
 }
 
 export interface ReplaceCommand {
-  from: string;
-  to: string;
+  from: string | string[];
+  to: string | string[];
   flags?: string;
 }
 
 export interface MatchCommand {
   pattern: string;
   flags?: string;
+  group?: number;
 }
 
 export interface PostProcessorConfig {

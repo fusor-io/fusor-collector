@@ -11,7 +11,7 @@ export class CollectorService {
   constructor(private readonly _pipeService: PipeService, private readonly _scrapperService: ScrapperService) {}
 
   async collect(collectorConfig: CollectorConfig): Promise<CollectorResult> {
-    const result = <CollectorResult>{};
+    const result: CollectorResult = {};
 
     if (!collectorConfig.source) return result;
     const source = await this._scrapperService.readSource(collectorConfig.source);
@@ -20,7 +20,9 @@ export class CollectorService {
     const params = Object.keys(collectorConfig.pipes);
 
     for (const param of params) {
-      result[param] = numeral(this._pipeService.processPipe(collectorConfig.pipes[param], source)).value();
+      result[param] = numeral(
+        this._pipeService.processPipe(collectorConfig.pipes[param], source).toLowerCase(),
+      ).value();
     }
 
     return result;

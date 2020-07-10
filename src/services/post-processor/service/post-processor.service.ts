@@ -20,13 +20,31 @@ export class PostProcessorService {
   }
 
   private _replace(command: ReplaceCommand, source: string): string {
-    const regExp = new RegExp(command.from, command.flags || 'g');
-    return source.replace(regExp, command.to);
+    if (typeof command.from === 'string' && typeof command.to === 'string') {
+      const regExp = new RegExp(command.from, command.flags || 'g');
+      return source.replace(regExp, command.to);
+    } else if (
+      command.from &&
+      command.to &&
+      command.from instanceof Array &&
+      command.to instanceof Array &&
+      command.from.length === command.to.length
+    ) {
+      let result = source;
+      for (let i = 0; i < command.from.length; i++) {
+        const regExp = new RegExp(command.from[i], command.flags || 'g');
+        result = result.replace(regExp, command.to[i]);
+      }
+      return result;
+    } else {
+      return source;
+    }
   }
 
   private _match(command: MatchCommand, source: string): string {
     const regExp = new RegExp(command.pattern, command.flags || '');
-    const result = regExp.exec(source);
-    return result.length > 0 ? result[0] : '';
+    const result = regExp.exec(source) || [];
+    const group = command.group || 0;
+    return result.length > group ? result[group] : '';
   }
 }

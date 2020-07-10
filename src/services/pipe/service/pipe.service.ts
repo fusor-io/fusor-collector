@@ -23,6 +23,6 @@ export class PipeService {
       }
     }
 
-    return result;
+    return result || '';
   }
 }
