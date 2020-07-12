@@ -20,6 +20,7 @@ export class SchedulerService {
 
   async schedule(): Promise<void> {
     const configs = await this._configuratorService.getConfigurations();
+    this._logger.log(`${configs?.length || 0} configs available`);
 
     if (!configs?.length) return;
 
