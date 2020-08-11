@@ -1,7 +1,7 @@
 import { CollectorConfig } from 'src/shared/collector-config/type';
 
 export interface CollectorDefinition {
-  node: string;
+  key: string;
   definition: CollectorConfig;
 }
 
