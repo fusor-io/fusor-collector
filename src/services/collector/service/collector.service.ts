@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import * as numeral from 'numeral';
 
-import { ScrapperService } from '../../scrapper/service/scrapper.service';
-import { CollectorResult } from '../../../shared/collector-config/type/collector-result';
 import { CollectorConfig } from '../../../shared/collector-config/type/collector-config';
+import { CollectorResult } from '../../../shared/collector-config/type/collector-result';
 import { PipeService } from '../../pipe/service/pipe.service';
+import { ScrapperService } from '../../scrapper/service/scrapper.service';
 
 @Injectable()
 export class CollectorService {
@@ -20,9 +20,8 @@ export class CollectorService {
     const params = Object.keys(collectorConfig.pipes);
 
     for (const param of params) {
-      result[param] = numeral(
-        this._pipeService.processPipe(collectorConfig.pipes[param], source).toLowerCase(),
-      ).value();
+      const pipeOutput = this._pipeService.processPipe(collectorConfig.pipes[param], source);
+      result[param] = typeof pipeOutput === 'string' ? numeral(pipeOutput.toLowerCase()).value() : pipeOutput;
     }
 
     return result;

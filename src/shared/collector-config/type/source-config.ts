@@ -6,4 +6,5 @@ export enum SourceType {
 export interface SourceConfig {
   type: SourceType;
   uri: string;
+  headers?: Record<string, string>;
 }

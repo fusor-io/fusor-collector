@@ -18,7 +18,8 @@ export class TestCollectorController {
     const params = Object.keys(body.pipes);
 
     for (const param of params) {
-      result[param] = this._pipeService.processPipe(body.pipes[param], source).toLowerCase();
+      const pipeOutput = this._pipeService.processPipe(body.pipes[param], source);
+      result[param] = typeof pipeOutput === 'string' ? numeral(pipeOutput.toLowerCase()).value() : pipeOutput;
     }
 
     return result;

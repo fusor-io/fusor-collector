@@ -1,5 +1,6 @@
-import { Injectable, HttpService, Logger } from '@nestjs/common';
+import { HttpService, Injectable, Logger } from '@nestjs/common';
 import { SourceConfig, SourceType } from 'src/shared/collector-config/type';
+
 import { USER_AGENT } from '../const';
 
 @Injectable()
@@ -20,7 +21,9 @@ export class ScrapperService {
   }
 
   private async _fetchUrl(source: SourceConfig): Promise<string> {
-    const result = await this._httpService.get(source.uri, { headers: { 'User-Agent': USER_AGENT } }).toPromise();
+    const result = await this._httpService
+      .get(source.uri, { headers: { ...source.headers, 'User-Agent': USER_AGENT } })
+      .toPromise();
     if (result.data) {
       return result.data;
     } else {

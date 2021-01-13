@@ -1,13 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { load } from 'cheerio';
 import { fromString } from 'html-to-text';
+import * as jsonata from 'jsonata';
 import { ExtractorConfig, ExtractorHtmlTransform, ExtractorType } from 'src/shared/collector-config/type';
 
 @Injectable()
 export class ExtractorService {
   private readonly _logger = new Logger(this.constructor.name);
 
-  extract(extractor: ExtractorConfig, source: string): string {
+  extract(extractor: ExtractorConfig, source: string): string | number {
     switch (extractor.type) {
       case ExtractorType.cssSelector:
         return this._extractByCssSelector(extractor.query, extractor.transform, source);
@@ -48,7 +49,19 @@ export class ExtractorService {
     }
   }
 
-  private _extractByJsonataQuery(query: string, source: string): string {
-    return source;
+  private _extractByJsonataQuery(query: string, source: string | object): string | number {
+    try {
+      const data = typeof source === 'string' ? JSON.parse(source) : source;
+
+      const expression = jsonata(query);
+      const result = expression.evaluate(data);
+
+      if (typeof result === 'string' || typeof result === 'number') return result;
+
+      throw new Error(`Query evaluated to invalid data type: ${typeof result}`);
+    } catch (error) {
+      this._logger.error('Failed executing JSONata query', error);
+      return '';
+    }
   }
 }
