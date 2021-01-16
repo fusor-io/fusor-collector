@@ -1,4 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import * as numeral from 'numeral';
 import { PipeService } from 'src/services/pipe/service/pipe.service';
 import { ScrapperService } from 'src/services/scrapper/service/scrapper.service';
 import { CollectorConfig } from 'src/shared/collector-config/type';

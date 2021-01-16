@@ -1,0 +1,8 @@
+#!/bin/bash
+
+python3 ep-0118-ups.py
+
+#echo "Bus Voltage: 5.224 V"
+#echo "Bus Current: 73.000 mA"
+#echo "Power: 380.488 mW"
+#echo "Shunt voltage: 5.010 mV"
