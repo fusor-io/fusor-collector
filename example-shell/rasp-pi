@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# print Rasberry pi core temperature
+/opt/vc/bin/vcgencmd measure_temp
+# output should be like this:
+# temp=39.0'C
+
+#print disk space stats
+df
+
+# output should be like this:
+# Filesystem     1K-blocks    Used Available Use% Mounted on
+# /dev/root      122885888 9427408 108377472   9% /
+# devtmpfs         1867776       0   1867776   0% /dev
+# tmpfs            1999872       0   1999872   0% /dev/shm
+# tmpfs            1999872    8744   1991128   1% /run
+# tmpfs               5120       4      5116   1% /run/lock
+# tmpfs            1999872       0   1999872   0% /sys/fs/cgroup
+# /dev/mmcblk0p1    258095   52233    205863  21% /boot
+# tmpfs             399972       0    399972   0% /run/user/1000
+
+# we are interested in /dev/mmcblk0p1
