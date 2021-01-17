@@ -1,6 +1,6 @@
 import { HttpService, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { scheduleJob } from 'node-schedule';
+import { scheduledJobs, scheduleJob } from 'node-schedule';
 import { CollectorConfig } from 'src/shared/collector-config/type';
 import { Config } from 'src/shared/const/config';
 
@@ -27,8 +27,20 @@ export class SchedulerService {
 
     for (const config of configs) {
       const { definition, key } = config;
-      scheduleJob(definition.schedule, async () => this._runBatch(key, definition));
+      scheduleJob(key, definition.schedule, async () => this._runBatch(key, definition));
     }
+  }
+
+  async reload(): Promise<void> {
+    this._logger.log('Reloading collectors...');
+
+    Object.keys(scheduledJobs).forEach(jobName => {
+      this._logger.log(`Canceling ${jobName}`);
+      scheduledJobs[jobName].cancel();
+    });
+
+    await this.schedule();
+    this._logger.log('...reloaded');
   }
 
   private async _runBatch(id: string, config: CollectorConfig): Promise<void> {
