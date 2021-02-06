@@ -1,4 +1,4 @@
 export enum Config {
-  gatewayUrl = 'GATEWAY_URL',
+  hubUrl = 'FUSOR_HUB_URL',
   shellScripts = 'SHELL_SCRIPTS',
 }

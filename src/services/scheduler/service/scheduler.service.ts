@@ -10,7 +10,7 @@ import { ConfiguratorService } from '../../configurator/service/configurator.ser
 @Injectable()
 export class SchedulerService {
   private readonly _logger = new Logger(this.constructor.name);
-  private readonly _gatewayUrl = this._configService.get<string>(Config.gatewayUrl);
+  private readonly _gatewayUrl = this._configService.get<string>(Config.hubUrl);
 
   constructor(
     private readonly _configService: ConfigService,

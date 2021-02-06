@@ -1,10 +1,24 @@
 {
-  "name": "dobby-collector",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "name": "fusor-collector",
+  "version": "0.0.1-alfa",
+  "description": "Fusor Hub, part of Fusor ecosystem",
+  "copyright": "Giedrius Lukosevicius",
+  "author": {
+    "name": "Giedrius Lukosevicius",
+    "email": "fusor@nanobitas.lt"
+  },
+  "keywords": [
+    "Smart House",
+    "Web scrapping",
+    "Data ingestion"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fusor-io/fusor-collector.git"
+  },
+  "private": false,
+  "license": "MIT",
+  "homepage": "fusor.io",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

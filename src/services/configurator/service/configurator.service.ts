@@ -1,12 +1,13 @@
-import { Injectable, HttpService } from '@nestjs/common';
+import { HttpService, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Config } from 'src/shared/const/config';
-import { CollectorDefinitions } from '../dto';
 import { PipesConfig } from 'src/shared/collector-config/type';
+import { Config } from 'src/shared/const/config';
+
+import { CollectorDefinitions } from '../dto';
 
 @Injectable()
 export class ConfiguratorService {
-  private readonly _gatewayUrl = this._configService.get<string>(Config.gatewayUrl);
+  private readonly _gatewayUrl = this._configService.get<string>(Config.hubUrl);
 
   constructor(private readonly _httpService: HttpService, private readonly _configService: ConfigService) {}
 
