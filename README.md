@@ -1,7 +1,7 @@
 # How it works
 
 Process is like this:
-Scrap data from the source => extract values => post-process values => write values to `Gateway`
+Scrap data from the source => extract values => post-process values => write values to `Fusor Hub`
 
 `Scrapper` is responsible for fetching raw data from the source:
 - by reading from url and providing raw data form `HTTP` response body
@@ -18,5 +18,5 @@ Each `Pipe` extracts one resulting value. So many parameters can be fetched by r
 `PostProcessor` receives data from the `Extractor` and can:
 - perform set of `Regex replace` and/or `Regex match` operations
 
-Result of each `Pipe` is converted to a number and posted into specified `Node` `Parameter` on the `Gateway`
+Result of each `Pipe` is converted to a number and posted into specified `Node` `Parameter` on the `Fusor Hub`
 

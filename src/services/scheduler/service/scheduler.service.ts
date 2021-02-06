@@ -10,7 +10,7 @@ import { ConfiguratorService } from '../../configurator/service/configurator.ser
 @Injectable()
 export class SchedulerService {
   private readonly _logger = new Logger(this.constructor.name);
-  private readonly _gatewayUrl = this._configService.get<string>(Config.hubUrl);
+  private readonly _fusorUrl = this._configService.get<string>(Config.hubUrl);
 
   constructor(
     private readonly _configService: ConfigService,
@@ -83,7 +83,7 @@ export class SchedulerService {
       this._logger.log(`Starting job "${id}"`);
 
       const results = await this._collectorService.collect(config);
-      const reply = await this._httpService.post(`${this._gatewayUrl}/node/${id}/batch`, results).toPromise();
+      const reply = await this._httpService.post(`${this._fusorUrl}/node/${id}/batch`, results).toPromise();
 
       this._logger.log(`Job "${id}" completed: ${reply.statusText}`);
     } catch (error) {

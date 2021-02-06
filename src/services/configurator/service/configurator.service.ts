@@ -7,13 +7,13 @@ import { CollectorDefinitions } from '../dto';
 
 @Injectable()
 export class ConfiguratorService {
-  private readonly _gatewayUrl = this._configService.get<string>(Config.hubUrl);
+  private readonly _hubUrl = this._configService.get<string>(Config.hubUrl);
 
   constructor(private readonly _httpService: HttpService, private readonly _configService: ConfigService) {}
 
   async getConfigurations(): Promise<CollectorDefinitions> {
     const result = await this._httpService
-      .get<CollectorDefinitions>(`${this._gatewayUrl}/definitions/collector`)
+      .get<CollectorDefinitions>(`${this._hubUrl}/definitions/collector`)
       .toPromise();
     const configs = result?.data;
 
@@ -30,7 +30,7 @@ export class ConfiguratorService {
 
   private async _loadPipesTemplate(id: string): Promise<PipesConfig> {
     const result = await this._httpService
-      .get<PipesConfig>(`${this._gatewayUrl}/definitions/collector_pipes/${id}`)
+      .get<PipesConfig>(`${this._hubUrl}/definitions/collector_pipes/${id}`)
       .toPromise();
     return result?.data || {};
   }
