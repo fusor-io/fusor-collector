@@ -33,3 +33,7 @@ Each `Pipe` extracts one resulting value. So many parameters can be fetched by r
 
 Result of each `Pipe` is intelligently converted to a number using `numeral` library and posted into specified `Node` `Parameter` on the `Fusor Hub`
 
+# Prerequisites
+
+Running `Fusor Hub` server [https://github.com/fusor-io/fusor-hub]
+
