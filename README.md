@@ -65,5 +65,5 @@ Use Postman to upload this configuration to the `Fusor Hub` server:
 `PUT http://<your server ip>/definitions/collector/solar`
 
 
-Examples of using shell scripts for data collections can be found [here](./example-shell/readme.md)
+Examples of using shell scripts for data collection can be found [here](./example-shell/readme.md)
 
