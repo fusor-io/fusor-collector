@@ -61,4 +61,5 @@ This is example of configuration for reading solar activity data from NOAA servi
 ```
 
 Use Postman to upload this configuration to the `Fusor Hub` server:
+
 `PUT http://<your server ip>/definitions/collector/solar`
