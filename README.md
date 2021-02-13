@@ -30,7 +30,7 @@ Each `Pipe` extracts one resulting value. So many parameters can be fetched by r
 `Extractor` receives raw data from the `Scrapper` and can:
 
 - extract content from `HTML` using `CSS` selector and optionally convert selected `HTML` to text using several filter
-- extract content from `JSON` using `JSONata` queries
+- extract content from `JSON` using [JSONata](https://jsonata.org) queries
 
 `PostProcessor` receives data from the `Extractor` and can:
 
