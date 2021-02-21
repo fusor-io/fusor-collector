@@ -5,7 +5,7 @@ import { CollectorConfig } from 'src/shared/collector-config/type';
 import { Config } from 'src/shared/const/config';
 
 import { CollectorService } from '../../collector/service/collector.service';
-import { ConfiguratorService } from '../../configurator/service/configurator.service';
+import { ConfiguratorService } from '../../configurator';
 
 @Injectable()
 export class SchedulerService {

@@ -1,7 +1,7 @@
 import { HttpModule, Module, OnModuleInit } from '@nestjs/common';
 
 import { CollectorModule } from '../collector/collector.module';
-import { ConfiguratorModule } from './../configurator/configurator.module';
+import { ConfiguratorModule } from '../configurator';
 import { SchedulerService } from './service/scheduler.service';
 
 @Module({

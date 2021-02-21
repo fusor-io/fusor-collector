@@ -1,21 +1,20 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PipesConfig } from 'src/shared/collector-config/type';
 import { Config } from 'src/shared/const/config';
 
-import { CollectorDefinitions } from '../dto';
+import { DefinitionType, HubClientService } from '../../hub-client';
+import { CollectorDefinition, CollectorDefinitions } from '../dto';
 
 @Injectable()
 export class ConfiguratorService {
+  private readonly _logger = new Logger(this.constructor.name);
   private readonly _hubUrl = this._configService.get<string>(Config.hubUrl);
 
-  constructor(private readonly _httpService: HttpService, private readonly _configService: ConfigService) {}
+  constructor(private readonly _hubClientService: HubClientService, private readonly _configService: ConfigService) {}
 
   async getConfigurations(): Promise<CollectorDefinitions> {
-    const result = await this._httpService
-      .get<CollectorDefinitions>(`${this._hubUrl}/definitions/collector`)
-      .toPromise();
-    const configs = result?.data;
+    const configs = await this._hubClientService.getDefinitions<CollectorDefinition>(DefinitionType.collector);
 
     if (!configs?.length) return [];
 
@@ -29,9 +28,7 @@ export class ConfiguratorService {
   }
 
   private async _loadPipesTemplate(id: string): Promise<PipesConfig> {
-    const result = await this._httpService
-      .get<PipesConfig>(`${this._hubUrl}/definitions/collector_pipes/${id}`)
-      .toPromise();
-    return result?.data || {};
+    const result = await this._hubClientService.getDefinition<PipesConfig>(DefinitionType.collectorPipes, id);
+    return result || {};
   }
 }
