@@ -108,7 +108,7 @@ To collect timezone offset, you can use this collector definition:
         "type": "shell",
         "uri": "timezone"
     },
-    "schedule": "*/1 * * * *",
+    "schedule": "1 0 * * *",
     "pipes": {
         "tz": {}
     }
