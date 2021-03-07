@@ -6,6 +6,7 @@ import { LogLevelManagerService } from './service/log-level-manager.service';
 @Module({
   imports: [HubClientModule],
   providers: [LogLevelManagerService],
+  exports: [LogLevelManagerService],
 })
 export class LogLevelManagerModule implements OnModuleInit {
   constructor(private readonly _logLevelManager: LogLevelManagerService) {}
