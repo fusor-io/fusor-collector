@@ -16,6 +16,6 @@ export class AppService {
 
   async reload(): Promise<void> {
     await this._schedulerService.reload();
-    this._logLevelManager.scheduleLevelUpdate;
+    this._logLevelManager.scheduleLevelUpdate();
   }
 }
