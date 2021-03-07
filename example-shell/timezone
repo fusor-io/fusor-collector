@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# see: https://unix.stackexchange.com/questions/434120/convert-timezone-offset-to-integer
+
+date +%z | sed -E 's/^([+-])(..)(..)/scale=2;0\1(\2 + \3\/60)/' | bc

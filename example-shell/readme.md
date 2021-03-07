@@ -97,3 +97,20 @@ To collect power stats, you can use this collector definition:
     }
 }
 ```
+
+# TimeZone offset in hours (including unusual timezones, eg. from Australia)
+
+To collect timezone offset, you can use this collector definition:
+```JSON
+{
+    "targetNode": "@hub",
+    "source": {
+        "type": "shell",
+        "uri": "timezone"
+    },
+    "schedule": "*/1 * * * *",
+    "pipes": {
+        "tz": {}
+    }
+}
+```
