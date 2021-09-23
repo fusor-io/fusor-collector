@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# ping all network addresses in parallel, to collect ARP info
+for i in {1..254} ;do 
+ ping 192.168.1.$i -c 1 -w 5  >/dev/null &
+done
+
+# wait until all pings are done
+wait
+
+# create accumulated history file if it is not yet preset
+if [[ ! -f accumulated.txt ]]; then
+    touch accumulated.txt
+fi
+
+# collect ARP info
+scan=$(arp -a | grep -v "<incomplete>")
+
+# process ARP response
+result=""
+while IFS= read -r line; do
+    readarray -d " " -t strarr <<<"$line"
+    printf -v mac "%s\n" ${strarr[3]}
+    result+=$mac
+done <<< "$scan"
+
+# merge ARP results with accumulated historic data
+# this is needed to detect unavailable nodes
+joint="$result$(cat accumulated.txt)"
+accumulated=$(echo "$joint" | sort | uniq)
+
+# update accumulated history file if there are some new nodes
+# we do this check to minimize writes to SD card, potentially used in Raspberry
+# this prevents unnecessary SD card wearing
+if [[ "$(cat accumulated.txt)" != "$accumulated" ]]; then
+ echo "updating..."
+ echo "$accumulated" > accumulated.txt
+fi
+
+# identify nodes not connected to the network at present time
+absent=$(echo "$result$accumulated" | sort | uniq -u)
+
+# collect final outpu with added 0 or 1 flags to each MAC address
+# 0 -> node is off
+# 1 -> node is currently on
+output=""
+while IFS= read -r line; do
+    if [[ $line != "" ]]; then
+        printf -v item "%s 0\n" $line
+        output+=$item
+    fi
+done <<< "$absent"
+
+while IFS= read -r line; do
+    if [[ $line != "" ]]; then
+        printf -v item "%s,1\n" $line
+        output+=$item
+    fi
+done <<< "$result"
+
+# output the result
+echo "$output"
