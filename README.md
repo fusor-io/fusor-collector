@@ -23,13 +23,14 @@ Scrap data from the source => extract values => post-process values => write val
 - by reading from REST API
 - by executing shell command and reading raw data from the output stream
 
-Result of `Scrapper` is forwarded to one or more `Pipes`.
+Result of `Scrapper` is forwarded to one or more `Pipes` or `TablePipes`.
 Each `Pipe` extracts one resulting value. So many parameters can be fetched by running a single scrap operation.
 `Pipe` consists of `Extractor` and `PostProcessor`.
+`TablePipe` consists of `Extractor` reading data from `HTML`, `CSV` or `JSON` table. Each table `line` or `column` is evaluated using [JSONata](https://jsonata.org) query and forwarded to optional `PostProcessor`
 
 `Extractor` receives raw data from the `Scrapper` and can:
 
-- extract content from `HTML` using `CSS` selector and optionally convert selected `HTML` to text using several filter
+- extract content from `HTML` using `CSS` selector and optionally convert selected `HTML` to text using several filters
 - extract content from `JSON` using [JSONata](https://jsonata.org) queries
 
 `PostProcessor` receives data from the `Extractor` and can:

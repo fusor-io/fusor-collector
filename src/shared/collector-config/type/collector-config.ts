@@ -3,6 +3,7 @@ import { RecurrenceSpecObjLit } from 'node-schedule';
 import { BatchConfig } from './batch-config';
 import { PipesConfig } from './pipe-config';
 import { SourceConfig } from './source-config';
+import { TablePipeConfig } from './table-pipe-config';
 
 export interface CollectorConfig {
   batch?: BatchConfig;
@@ -10,5 +11,6 @@ export interface CollectorConfig {
 
   source: SourceConfig;
   schedule: string | RecurrenceSpecObjLit;
-  pipes: PipesConfig;
+  pipes?: PipesConfig;
+  tablePipes?: TablePipeConfig[];
 }

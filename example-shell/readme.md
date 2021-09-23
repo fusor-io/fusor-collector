@@ -3,6 +3,7 @@ This directory contains examples of shell scripts for collecting stats of Raspbe
 # Raspberry Pi stats
 
 To collect Core temperature you need such collector definition:
+
 ```JSON
 {
     "targetNode": "rpi",
@@ -73,6 +74,7 @@ If EP-0118 mounted directly on Raspberry Pi, it supports some info through I2C.
 Setup details: [https://wiki.52pi.com/index.php/UPS_(With_RTC_%26_Coulometer)_For_Raspberry_Pi_SKU:_EP-0118]
 
 To collect power stats, you can use this collector definition:
+
 ```JSON
 {
     "targetNode": "ups",
@@ -101,6 +103,7 @@ To collect power stats, you can use this collector definition:
 # TimeZone offset in hours (including unusual timezones, eg. from Australia)
 
 To collect timezone offset, you can use this collector definition:
+
 ```JSON
 {
     "targetNode": "@hub",
@@ -112,5 +115,29 @@ To collect timezone offset, you can use this collector definition:
     "pipes": {
         "tz": {}
     }
+}
+```
+
+# Devices connected to your local network
+
+```JSON
+{
+    "targetNode": "network",
+    "source": {
+        "type": "shell",
+        "uri": "network/scan"
+    },
+    "schedule": "*/1 * * * *",
+    "tablePipe": [{
+        "extract": null,
+        "type": "csv",
+        "elements":[
+            {
+                "param": "row[0]",
+                "value": "row[1]",
+                "postProcess": []
+            }
+        ]
+    }]
 }
 ```

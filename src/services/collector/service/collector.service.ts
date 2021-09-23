@@ -16,12 +16,19 @@ export class CollectorService {
     if (!collectorConfig.source) return result;
     const source = await this._scrapperService.readSource(collectorConfig.source);
 
-    if (!collectorConfig.pipes) return result;
-    const params = Object.keys(collectorConfig.pipes);
+    if (collectorConfig.pipes) {
+      const params = Object.keys(collectorConfig.pipes);
 
-    for (const param of params) {
-      const pipeOutput = this._pipeService.processPipe(collectorConfig.pipes[param], source);
-      result[param] = typeof pipeOutput === 'string' ? numeral(pipeOutput.toLowerCase()).value() : pipeOutput;
+      for (const param of params) {
+        const pipeOutput = this._pipeService.processPipe(collectorConfig.pipes[param], source);
+        result[param] = typeof pipeOutput === 'string' ? numeral(pipeOutput.toLowerCase()).value() : pipeOutput;
+      }
+    }
+
+    if (collectorConfig.tablePipes) {
+      for (const table of collectorConfig.tablePipes) {
+        // TODO read table
+      }
     }
 
     return result;
