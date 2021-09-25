@@ -1,4 +1,4 @@
-import { CollectorConfig } from 'src/shared/collector-config/type';
+import { CollectorConfig } from '../../../shared/type';
 
 export interface CollectorDefinition {
   key: string;

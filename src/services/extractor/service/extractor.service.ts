@@ -2,7 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { load } from 'cheerio';
 import { fromString } from 'html-to-text';
 import * as jsonata from 'jsonata';
-import { ExtractorConfig, ExtractorHtmlTransform, ExtractorType } from 'src/shared/collector-config/type';
+
+import { ExtractorConfig, ExtractorHtmlTransform, ExtractorType } from '../../../shared/type';
 
 @Injectable()
 export class ExtractorService {

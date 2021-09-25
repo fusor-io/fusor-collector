@@ -2,9 +2,9 @@ import { HttpService, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { exec } from 'child_process';
 import * as path from 'path';
-import { SourceConfig, SourceType } from 'src/shared/collector-config/type';
-import { Config } from 'src/shared/const/config';
 
+import { Config } from '../../../shared/const/config';
+import { SourceConfig, SourceType } from '../../../shared/type';
 import { USER_AGENT } from '../const';
 
 @Injectable()

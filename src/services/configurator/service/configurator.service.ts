@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { PipesConfig } from 'src/shared/collector-config/type';
-import { Config } from 'src/shared/const/config';
 
+import { Config } from '../../../shared/const/config';
+import { PipesConfig } from '../../../shared/type';
 import { DefinitionType, HubClientService } from '../../hub-client';
 import { CollectorDefinition, CollectorDefinitions } from '../dto';
 

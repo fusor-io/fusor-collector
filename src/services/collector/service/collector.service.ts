@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as numeral from 'numeral';
 
-import { CollectorConfig } from '../../../shared/collector-config/type/collector-config';
-import { CollectorResult } from '../../../shared/collector-config/type/collector-result';
+import { CollectorConfig, CollectorResult } from '../../../shared/type';
 import { PipeService } from '../../pipe/service/pipe.service';
 import { ScrapperService } from '../../scrapper/service/scrapper.service';
 
