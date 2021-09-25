@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import {
-  PostProcessorConfig,
-  PostProcessorCommandType,
-  ReplaceCommand,
-  MatchCommand,
-} from 'src/shared/collector-config/type';
+
+import { MatchCommand, PostProcessorCommandType, PostProcessorConfig, ReplaceCommand } from '../../../shared/type';
 
 @Injectable()
 export class PostProcessorService {

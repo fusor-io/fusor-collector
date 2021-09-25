@@ -1,9 +1,9 @@
 import { HttpService, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { scheduledJobs, scheduleJob } from 'node-schedule';
-import { CollectorConfig } from 'src/shared/collector-config/type';
-import { Config } from 'src/shared/const/config';
 
+import { Config } from '../../../shared/const/config';
+import { CollectorConfig } from '../../../shared/type';
 import { CollectorService } from '../../collector/service/collector.service';
 import { ConfiguratorService } from '../../configurator';
 

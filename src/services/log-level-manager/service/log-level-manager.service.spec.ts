@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
+import { HubClientService } from '../../hub-client/service/hub-client.service';
 import { LogLevelManagerService } from './log-level-manager.service';
 
 describe('LogLevelManagerService', () => {
@@ -6,7 +8,7 @@ describe('LogLevelManagerService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [LogLevelManagerService],
+      providers: [LogLevelManagerService, { provide: HubClientService, useValue: {} }],
     }).compile();
 
     service = module.get<LogLevelManagerService>(LogLevelManagerService);

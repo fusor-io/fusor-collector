@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { PipeConfig } from '../../../shared/collector-config/type/pipe-config';
+import { PipeConfig } from '../../../shared/type';
 import { ExtractorService } from '../../extractor/service/extractor.service';
-import { PostProcessorService } from './../../post-processor/service/post-processor.service';
+import { PostProcessorService } from '../../post-processor/service/post-processor.service';
 
 @Injectable()
 export class PipeService {

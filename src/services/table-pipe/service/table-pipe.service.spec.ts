@@ -2,21 +2,21 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ExtractorService } from '../../extractor/service/extractor.service';
 import { PostProcessorService } from '../../post-processor/service/post-processor.service';
-import { PipeService } from './pipe.service';
+import { TablePipeService } from './table-pipe.service';
 
-describe('PipeService', () => {
-  let service: PipeService;
+describe('TablePipeService', () => {
+  let service: TablePipeService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        PipeService,
+        TablePipeService,
         { provide: ExtractorService, useValue: {} },
         { provide: PostProcessorService, useValue: {} },
       ],
     }).compile();
 
-    service = module.get<PipeService>(PipeService);
+    service = module.get<TablePipeService>(TablePipeService);
   });
 
   it('should be defined', () => {

@@ -1,7 +1,8 @@
 {
     "cSpell.words": [
         "configurator",
-        "fusor"
+        "fusor",
+        "jsonata"
     ],
     "debug.javascript.autoAttachFilter": "onlyWithFlag"
 }
