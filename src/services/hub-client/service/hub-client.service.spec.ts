@@ -1,4 +1,7 @@
+import { HttpService } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { HubClientService } from './hub-client.service';
 
 describe('HubClientService', () => {
@@ -6,9 +9,12 @@ describe('HubClientService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [HubClientService],
+      providers: [
+        HubClientService,
+        { provide: HttpService, useValue: {} },
+        { provide: ConfigService, useValue: { get: jest.fn() } },
+      ],
     }).compile();
-
     service = module.get<HubClientService>(HubClientService);
   });
 
