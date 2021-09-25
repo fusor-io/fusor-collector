@@ -1,4 +1,4 @@
-This directory contains examples of shell scripts for collecting stats of Raspberry Pi and EP-0118 UPS for Raspberry
+This directory contains examples of shell scripts for collecting stats of Raspberry Pi, EP-0118 UPS for Raspberry and Network devices
 
 # Raspberry Pi stats
 
@@ -125,16 +125,20 @@ To collect timezone offset, you can use this collector definition:
     "targetNode": "network",
     "source": {
         "type": "shell",
-        "uri": "network/scan"
+        "uri": "network-scan"
     },
     "schedule": "*/1 * * * *",
-    "tablePipe": [{
+    "tablePipes": [{
         "extract": null,
         "type": "csv",
+        "params": {
+			"delimiter": ",",
+			"escape": null
+		},
         "elements":[
             {
-                "param": "row[0]",
-                "value": "row[1]",
+                "name": "$replace($[0], ':', '')",
+                "value": "$[1]",
                 "postProcess": []
             }
         ]

@@ -1,3 +1,1 @@
-export interface CollectorResult {
-  [param: string]: number | null;
-}
+export type CollectorResult = Record<string, number | null>;

@@ -6,3 +6,4 @@ export * from './table-pipe-config';
 export * from './extractor-config';
 export * from './post-processor-config';
 export * from './batch-config';
+export * from './raw-result';

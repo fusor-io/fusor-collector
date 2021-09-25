@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# ping all network addresses in parallel, to collect ARP info
+# ping all local network addresses in parallel, to collect ARP info
+# NOTE: check what is your actual local network range and adjust if needed
 for i in {1..254} ;do 
- ping 192.168.1.$i -c 1 -w 5  >/dev/null &
+    ping 192.168.1.$i -c 1 -w 5  >/dev/null &
 done
 
 # wait until all pings are done
 wait
 
 # create accumulated history file if it is not yet preset
-if [[ ! -f accumulated.txt ]]; then
-    touch accumulated.txt
+if [[ ! -f network-scan-accumulated.txt ]]; then
+    touch network-scan-accumulated.txt
 fi
 
 # collect ARP info
@@ -26,15 +27,14 @@ done <<< "$scan"
 
 # merge ARP results with accumulated historic data
 # this is needed to detect unavailable nodes
-joint="$result$(cat accumulated.txt)"
+joint="$result$(cat network-scan-accumulated.txt)"
 accumulated=$(echo "$joint" | sort | uniq)
 
 # update accumulated history file if there are some new nodes
 # we do this check to minimize writes to SD card, potentially used in Raspberry
 # this prevents unnecessary SD card wearing
-if [[ "$(cat accumulated.txt)" != "$accumulated" ]]; then
- echo "updating..."
- echo "$accumulated" > accumulated.txt
+if [[ "$(cat network-scan-accumulated.txt)" != "$accumulated" ]]; then
+    echo "$accumulated" > network-scan-accumulated.txt
 fi
 
 # identify nodes not connected to the network at present time
@@ -46,7 +46,7 @@ absent=$(echo "$result$accumulated" | sort | uniq -u)
 output=""
 while IFS= read -r line; do
     if [[ $line != "" ]]; then
-        printf -v item "%s 0\n" $line
+        printf -v item "%s,0\n" $line
         output+=$item
     fi
 done <<< "$absent"
