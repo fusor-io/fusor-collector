@@ -11,14 +11,8 @@ describe('ConfiguratorService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ConfiguratorService,
-        {
-          provide: HubClientService,
-          useValue: {},
-        },
-        {
-          provide: ConfigService,
-          useValue: { get: jest.fn() },
-        },
+        { provide: HubClientService, useValue: {} },
+        { provide: ConfigService, useValue: { get: jest.fn() } },
       ],
     }).compile();
     service = module.get<ConfiguratorService>(ConfiguratorService);
