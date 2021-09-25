@@ -2,8 +2,6 @@
 
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 accumulator_file="$dir/network-scan-accumulated.txt"
-echo "$accumulator_file"
-
 
 # ping all local network addresses in parallel, to collect ARP info
 # NOTE: check what is your actual local network range and adjust if needed
