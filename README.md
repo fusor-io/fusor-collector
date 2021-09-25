@@ -11,6 +11,7 @@ Examples of usage:
 - read weather conditions
 - read geomagnetic activity
 - read stock data
+- scan status of devices on the local network
 
 # How it works?
 
