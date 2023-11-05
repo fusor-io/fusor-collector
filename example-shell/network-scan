@@ -1,65 +1,52 @@
 #!/bin/bash
 
-dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-accumulator_file="$dir/network-scan-accumulated.txt"
+# Define the network prefix and subnet mask
+network_prefix="192.168.1"
+subnet_mask="255.255.255.0"
+mac_address_file="network-scan-accumulated.txt"
 
-# ping all local network addresses in parallel, to collect ARP info
-# NOTE: check what is your actual local network range and adjust if needed
-for i in {1..254} ;do 
-    ping 192.168.1.$i -c 1 -w 5  >/dev/null &
+# Read existing MAC addresses from the file into an associative array
+declare -A mac_addresses
+if [[ -f "$mac_address_file" ]]; then
+    while IFS= read -r line; do
+        mac_addresses[$line]=0
+    done < "$mac_address_file"
+fi
+
+# Ping all IP addresses in parallel
+for i in {1..254}; do
+    ip="$network_prefix.$i"
+    ping -c 1 -W 1 $ip > /dev/null 2>&1 &
 done
 
-# wait until all pings are done
+# Wait for all pings to complete
 wait
 
-# create accumulated history file if it is not yet preset
-if [[ ! -f $accumulator_file ]]; then
-    touch $accumulator_file
+# Query the ARP table for MAC addresses
+for i in {1..254}; do
+    ip="$network_prefix.$i"
+    mac=$(arp -n $ip | grep -o -E '([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}')
+    if [[ -n $mac ]]; then
+        mac_addresses[$mac]=1
+    fi
+done
+
+# Prepare the new MAC address file content
+new_content=""
+for mac in "${!mac_addresses[@]}"; do
+    new_content+="$mac"$'\n'
+done
+
+# Get the existing content from the file
+existing_content=$(cat "$mac_address_file" 2>/dev/null || echo "")
+
+# Compare the new content with the existing content
+if [[ "$new_content" != "$existing_content" ]]; then
+    # If different, update the file
+    echo -e "$new_content" > "$mac_address_file"
 fi
 
-# collect ARP info
-scan=$(arp -a | grep -v "<incomplete>")
-
-# process ARP response
-result=""
-while IFS= read -r line; do
-    readarray -d " " -t strarr <<<"$line"
-    printf -v mac "%s\n" ${strarr[3]}
-    result+=$mac
-done <<< "$scan"
-
-# merge ARP results with accumulated historic data
-# this is needed to detect unavailable nodes
-joint="$result$(cat $accumulator_file)"
-accumulated=$(echo "$joint" | sort | uniq)
-
-# update accumulated history file if there are some new nodes
-# we do this check to minimize writes to SD card, potentially used in Raspberry
-# this prevents unnecessary SD card wearing
-if [[ "$(cat $accumulator_file)" != "$accumulated" ]]; then
-    echo "$accumulated" > $accumulator_file
-fi
-
-# identify nodes not connected to the network at present time
-absent=$(echo "$result$accumulated" | sort | uniq -u)
-
-# collect final outpu with added 0 or 1 flags to each MAC address
-# 0 -> node is off
-# 1 -> node is currently on
-output=""
-while IFS= read -r line; do
-    if [[ $line != "" ]]; then
-        printf -v item "%s,0\n" $line
-        output+=$item
-    fi
-done <<< "$absent"
-
-while IFS= read -r line; do
-    if [[ $line != "" ]]; then
-        printf -v item "%s,1\n" $line
-        output+=$item
-    fi
-done <<< "$result"
-
-# output the result
-echo "$output"
+# Output the list of MAC addresses with active/inactive flag
+for mac in "${!mac_addresses[@]}"; do
+    echo "$mac,${mac_addresses[$mac]}"
+done
