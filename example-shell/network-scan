@@ -9,7 +9,9 @@ mac_address_file="network-scan-accumulated.txt"
 declare -A mac_addresses
 if [[ -f "$mac_address_file" ]]; then
     while IFS= read -r line; do
-        mac_addresses[$line]=0
+        if [[ -n $line ]]; then  # Check if line is non-empty
+            mac_addresses[$line]=0
+        fi
     done < "$mac_address_file"
 fi
 
