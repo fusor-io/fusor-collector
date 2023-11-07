@@ -145,3 +145,31 @@ To collect timezone offset, you can use this collector definition:
     }]
 }
 ```
+
+# Response time from the remote urls. If you see response time 0, that means call failed. Otherwise you will get response time. GET method is used to fetch the url contents
+
+```JSON
+{
+    "targetNode": "servers",
+    "source": {
+        "type": "shell",
+        "uri": "ping-servers google=https://www.google.com yahoo=https://finance.yahoo.com/quote/QQQ"
+    },
+    "schedule": "*/5 * * * *",
+    "tablePipes": [{
+        "extract": null,
+        "type": "csv",
+        "params": {
+			"delimiter": " ",
+			"escape": null
+		},
+        "elements":[
+            {
+                "name": "$[0]",
+                "value": "$[1]",
+                "postProcess": []
+            }
+        ]
+    }]
+}
+```

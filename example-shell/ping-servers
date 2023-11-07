@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Check if at least one argument is provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 name1=url1 name2=url2 ... nameN=urlN"
+    exit 1
+fi
+
+# Loop through each named URL provided as an argument
+for named_url in "$@"; do
+    # Extract the name and the URL
+    name=$(echo "$named_url" | cut -d '=' -f 1)
+    url=$(echo "$named_url" | cut -d '=' -f 2)
+    
+    # Perform a GET request and measure the time taken, output 0 if an error occurs
+    result=$(curl -o /dev/null -s -w "%{http_code} %{time_total}\n" -L --connect-timeout 10 "$url")
+    http_code=$(echo "$result" | awk '{print $1}')
+    time_total=$(echo "$result" | awk '{print $2}')
+
+    # Convert the total time to milliseconds
+    timeout=$(awk "BEGIN {print int($time_total * 1000)}")
+    
+    # Check if the HTTP status code is not equal to 200
+    if [ "$http_code" -ne 200 ]; then
+        timeout=0
+    fi
+
+    # Output the name and timeout
+    echo "$name,$timeout"
+done
