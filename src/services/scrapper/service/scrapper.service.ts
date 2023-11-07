@@ -6,6 +6,7 @@ import * as path from 'path';
 import { Config } from '../../../shared/const/config';
 import { SourceConfig, SourceType } from '../../../shared/type';
 import { USER_AGENT } from '../const';
+import { sanitizeScriptUri } from './scrapper.utils';
 
 @Injectable()
 export class ScrapperService {
@@ -39,7 +40,7 @@ export class ScrapperService {
 
   private async _runShell(source: SourceConfig): Promise<string> {
     // Remove path part. We want only scripts located in our folder to be executed
-    const scriptName = source.uri.replace(/\/*\.*\//g, '');
+    const scriptName = sanitizeScriptUri(source.uri);
     if (!scriptName) {
       this._logger.error('Failed parsing shell file name');
       return '';
