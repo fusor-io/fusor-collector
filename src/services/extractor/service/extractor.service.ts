@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { load } from 'cheerio';
 import { fromString } from 'html-to-text';
 import * as jsonata from 'jsonata';
+import { inspect } from 'util';
 
 import { ExtractorConfig, ExtractorHtmlTransform, ExtractorType } from '../../../shared/type';
 
@@ -61,7 +62,10 @@ export class ExtractorService {
 
       throw new Error(`Query evaluated to invalid data type: ${typeof result}`);
     } catch (error) {
-      this._logger.error('Failed executing JSONata query', error);
+      this._logger.error(
+        `Failed executing JSONata query "${query}" against data: ${inspect(source).slice(0, 150)}...`,
+        error,
+      );
       return '';
     }
   }
